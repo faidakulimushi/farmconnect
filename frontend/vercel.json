@@ -1,4 +1,3 @@
-# Vercel deployment config – deploy the frontend dist folder
 {
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
