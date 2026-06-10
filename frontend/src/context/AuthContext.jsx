@@ -59,11 +59,11 @@ export function AuthProvider({ children }) {
       return data;
     } catch (err) {
       let msg;
-      if (err.isHtmlResponse || !err.response) {
+      if (err.isNotBackend) {
         msg = "Cannot connect to server. Please try again later.";
-      } else if (err.response.status === 401) {
+      } else if (err.response?.status === 401) {
         msg = "Invalid email or password.";
-      } else if (err.response.status === 403) {
+      } else if (err.response?.status === 403) {
         msg = "Account has been deactivated.";
       } else {
         msg = err.response?.data?.message || "Login failed. Please try again.";
@@ -84,11 +84,11 @@ export function AuthProvider({ children }) {
       return data;
     } catch (err) {
       let msg;
-      if (err.isHtmlResponse || !err.response) {
+      if (err.isNotBackend) {
         msg = "Cannot connect to server. Please try again later.";
-      } else if (err.response.status === 409) {
+      } else if (err.response?.status === 409) {
         msg = "Email is already registered.";
-      } else if (err.response.status === 400) {
+      } else if (err.response?.status === 400) {
         msg = err.response?.data?.message || "Please check your details.";
       } else {
         msg = err.response?.data?.message || "Registration failed. Please try again.";
