@@ -23,17 +23,31 @@ connectDB();
 const app = express();
 
 // ── Middleware ────────────────────────────────
+// CORS – allow localhost in dev + any Vercel/Render preview in production
 const allowedOrigins = [
-  process.env.CLIENT_URL || "http://localhost:5173",
   "http://localhost:5173",
   "http://localhost:5174",
   "http://localhost:5175",
 ];
+
+// Accept any URL set in CLIENT_URL (supports comma-separated list)
+if (process.env.CLIENT_URL) {
+  process.env.CLIENT_URL.split(",").forEach((u) => allowedOrigins.push(u.trim()));
+}
+
 app.use(
   cors({
     origin: (origin, cb) => {
-      // Allow requests with no origin (mobile apps, curl, Postman)
-      if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
+      // Allow no-origin requests (Postman, curl, mobile apps)
+      if (!origin) return cb(null, true);
+      // Allow any vercel.app or onrender.com preview URL
+      if (
+        allowedOrigins.includes(origin) ||
+        /\.vercel\.app$/.test(origin) ||
+        /\.onrender\.com$/.test(origin)
+      ) {
+        return cb(null, true);
+      }
       cb(new Error(`CORS: origin ${origin} not allowed`));
     },
     credentials: true,
@@ -42,9 +56,8 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-if (process.env.NODE_ENV === "development") {
-  app.use(morgan("dev"));
-}
+// Morgan logging – brief in production, verbose in development
+app.use(morgan(process.env.NODE_ENV === "production" ? "combined" : "dev"));
 
 // ── Health check ──────────────────────────────
 app.get("/api/health", (_req, res) => {

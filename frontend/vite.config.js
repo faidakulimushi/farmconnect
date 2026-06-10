@@ -6,15 +6,14 @@ export default defineConfig({
   server: {
     port: 5173,
     proxy: {
+      // Dev-only proxy: forwards /api calls to the local backend
       "/api": {
         target: "http://localhost:5000",
         changeOrigin: true,
       },
     },
   },
-  define: {
-    // Expose the backend URL to the frontend bundle.
-    // Set VITE_API_URL in Vercel environment variables.
-    "import.meta.env.VITE_API_URL": JSON.stringify(process.env.VITE_API_URL || ""),
-  },
+  // In production (Vercel), VITE_API_URL must be set as an env var.
+  // Vite automatically exposes VITE_* variables via import.meta.env –
+  // no manual `define` override needed.
 });
