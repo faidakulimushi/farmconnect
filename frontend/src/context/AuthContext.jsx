@@ -52,16 +52,22 @@ export function AuthProvider({ children }) {
     dispatch({ type: "AUTH_START" });
     try {
       const { data } = await api.post("/login", { email, password });
-      // Set header SYNCHRONOUSLY before any other code runs
       api.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
       localStorage.setItem("agrilink_token", data.token);
       localStorage.setItem("agrilink_user", JSON.stringify(data.user));
       dispatch({ type: "AUTH_SUCCESS", payload: data });
       return data;
     } catch (err) {
-      const msg = !err.response
-        ? "Cannot connect to server. Please try again later."
-        : err.response?.data?.message || "Login failed";
+      let msg;
+      if (err.isHtmlResponse || !err.response) {
+        msg = "Cannot connect to server. Please try again later.";
+      } else if (err.response.status === 401) {
+        msg = "Invalid email or password.";
+      } else if (err.response.status === 403) {
+        msg = "Account has been deactivated.";
+      } else {
+        msg = err.response?.data?.message || "Login failed. Please try again.";
+      }
       dispatch({ type: "AUTH_FAIL", payload: msg });
       throw new Error(msg);
     }
@@ -71,16 +77,22 @@ export function AuthProvider({ children }) {
     dispatch({ type: "AUTH_START" });
     try {
       const { data } = await api.post("/register", { name, email, password, role });
-      // Set header SYNCHRONOUSLY before any other code runs
       api.defaults.headers.common["Authorization"] = `Bearer ${data.token}`;
       localStorage.setItem("agrilink_token", data.token);
       localStorage.setItem("agrilink_user", JSON.stringify(data.user));
       dispatch({ type: "AUTH_SUCCESS", payload: data });
       return data;
     } catch (err) {
-      const msg = !err.response
-        ? "Cannot connect to server. Please try again later."
-        : err.response?.data?.message || "Registration failed";
+      let msg;
+      if (err.isHtmlResponse || !err.response) {
+        msg = "Cannot connect to server. Please try again later.";
+      } else if (err.response.status === 409) {
+        msg = "Email is already registered.";
+      } else if (err.response.status === 400) {
+        msg = err.response?.data?.message || "Please check your details.";
+      } else {
+        msg = err.response?.data?.message || "Registration failed. Please try again.";
+      }
       dispatch({ type: "AUTH_FAIL", payload: msg });
       throw new Error(msg);
     }
