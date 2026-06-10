@@ -12,7 +12,7 @@ export default function OrderHistory() {
 
   useEffect(() => {
     orderService.getMyOrders()
-      .then(({ data }) => setOrders(data.orders))
+      .then(({ data }) => setOrders(data.orders || []))
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);

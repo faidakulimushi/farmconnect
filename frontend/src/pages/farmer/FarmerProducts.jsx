@@ -14,7 +14,7 @@ export default function FarmerProducts() {
   const fetchProducts = () => {
     setLoading(true);
     productService.getMyProducts()
-      .then(({ data }) => setProducts(data.products))
+      .then(({ data }) => setProducts(data.products || []))
       .catch(() => {})
       .finally(() => setLoading(false));
   };

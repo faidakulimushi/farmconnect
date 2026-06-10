@@ -16,7 +16,7 @@ export default function ManageOrders() {
 
   useEffect(() => {
     orderService.getAll()
-      .then(({ data }) => setOrders(data.orders))
+      .then(({ data }) => setOrders(data.orders || []))
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);

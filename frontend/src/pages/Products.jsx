@@ -55,8 +55,8 @@ export default function Products() {
       if (maxPrice) params.maxPrice = maxPrice;
 
       const { data } = await productService.getAll(params);
-      setProducts(data.products);
-      setPagination({ page: data.page, pages: data.pages, total: data.total });
+      setProducts(data.products || []);
+      setPagination({ page: data.page || 1, pages: data.pages || 1, total: data.total || 0 });
     } catch {
       setProducts([]);
     } finally {
@@ -67,7 +67,7 @@ export default function Products() {
   useEffect(() => { fetchProducts(); }, [fetchProducts]);
 
   useEffect(() => {
-    categoryService.getAll().then(({ data }) => setCategories(data.categories)).catch(() => {});
+    categoryService.getAll().then(({ data }) => setCategories(data.categories || [])).catch(() => {});
   }, []);
 
   // Fetch dynamic price range on mount

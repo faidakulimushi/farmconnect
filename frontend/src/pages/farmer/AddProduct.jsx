@@ -14,7 +14,7 @@ export default function AddProduct() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    categoryService.getAll().then(({ data }) => setCategories(data.categories)).catch(() => {});
+    categoryService.getAll().then(({ data }) => setCategories(data.categories || [])).catch(() => {});
   }, []);
 
   const handleImageChange = (e) => {

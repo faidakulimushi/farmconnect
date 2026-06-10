@@ -14,7 +14,7 @@ export default function ManageUsers() {
   const fetchUsers = () => {
     setLoading(true);
     userService.getAll({ role: roleFilter || undefined })
-      .then(({ data }) => setUsers(data.users))
+      .then(({ data }) => setUsers(data.users || []))
       .catch(() => {})
       .finally(() => setLoading(false));
   };

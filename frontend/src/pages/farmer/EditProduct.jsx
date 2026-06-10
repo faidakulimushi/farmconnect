@@ -27,7 +27,7 @@ export default function EditProduct() {
           tags: (p.tags || []).join(", "), isFeatured: p.isFeatured, isActive: p.isActive,
         });
         setPreview(p.image || "");
-        setCategories(catRes.data.categories);
+        setCategories(catRes.data.categories || []);
       })
       .catch(() => toast.error("Failed to load product"))
       .finally(() => setFetching(false));

@@ -14,7 +14,7 @@ export default function FarmerOrders() {
 
   useEffect(() => {
     orderService.getAll()
-      .then(({ data }) => setOrders(data.orders))
+      .then(({ data }) => setOrders(data.orders || []))
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);

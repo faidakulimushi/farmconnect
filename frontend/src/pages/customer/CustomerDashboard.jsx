@@ -15,7 +15,7 @@ export default function CustomerDashboard() {
 
   useEffect(() => {
     orderService.getMyOrders()
-      .then(({ data }) => setOrders(data.orders.slice(0, 5)))
+      .then(({ data }) => setOrders((data.orders || []).slice(0, 5)))
       .catch(() => {})
       .finally(() => setLoading(false));
   }, []);

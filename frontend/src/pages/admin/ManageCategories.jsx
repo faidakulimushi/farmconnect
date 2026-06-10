@@ -14,7 +14,7 @@ export default function ManageCategories() {
   const [editName, setEditName] = useState("");
 
   const fetchCategories = () => {
-    categoryService.getAll().then(({ data }) => setCategories(data.categories)).catch(() => {}).finally(() => setLoading(false));
+    categoryService.getAll().then(({ data }) => setCategories(data.categories || [])).catch(() => {}).finally(() => setLoading(false));
   };
 
   useEffect(() => { fetchCategories(); }, []);
