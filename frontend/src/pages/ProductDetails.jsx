@@ -40,7 +40,7 @@ export default function ProductDetails() {
           reviewService.getByProduct(id),
         ]);
         setProduct(prodRes.data.product);
-        setReviews(revRes.data.reviews);
+        setReviews(revRes.data.reviews || []);
       } catch {
         setProduct(null);
       } finally {
@@ -130,7 +130,7 @@ export default function ProductDetails() {
       setReviewRating(0);
       setReviewComment("");
       const { data } = await reviewService.getByProduct(id);
-      setReviews(data.reviews);
+      setReviews(data.reviews || []);
     } catch (err) {
       toast.error(err.response?.data?.message || "Could not submit review");
     } finally {

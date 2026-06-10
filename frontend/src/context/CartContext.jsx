@@ -11,7 +11,7 @@ const initialState = { items: [], total: 0, loading: false };
 function cartReducer(state, action) {
   switch (action.type) {
     case "SET_CART":
-      return { ...state, items: action.payload.items, total: action.payload.total, loading: false };
+      return { ...state, items: action.payload.items || [], total: action.payload.total || 0, loading: false };
     case "SET_LOADING":
       return { ...state, loading: action.payload };
     case "CLEAR":

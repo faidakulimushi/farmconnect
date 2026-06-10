@@ -60,7 +60,7 @@ export default function OrderHistory() {
                 <div className="border-t border-gray-100 dark:border-gray-700 p-5 space-y-4 animate-fade-in">
                   {/* Items */}
                   <div className="space-y-3">
-                    {order.items.map((item) => (
+                    {(order.items || []).map((item) => (
                       <div key={item._id} className="flex gap-3">
                         <img src={item.image || PLACEHOLDER_IMAGE} alt={item.title} className="w-12 h-12 rounded-lg object-cover bg-gray-100" onError={(e) => { e.target.src = PLACEHOLDER_IMAGE; }} />
                         <div className="flex-1">

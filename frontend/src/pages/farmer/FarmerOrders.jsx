@@ -63,7 +63,7 @@ export default function FarmerOrders() {
                 <div className="border-t border-gray-100 dark:border-gray-700 p-5 space-y-4 animate-fade-in">
                   {/* Items */}
                   <div className="space-y-2">
-                    {order.items.map((item) => (
+                    {(order.items || []).map((item) => (
                       <div key={item._id} className="flex items-center gap-3">
                         <img src={item.image || PLACEHOLDER_IMAGE} alt={item.title} className="w-10 h-10 rounded-lg object-cover bg-gray-100" onError={(e) => { e.target.src = PLACEHOLDER_IMAGE; }} />
                         <div className="flex-1">
