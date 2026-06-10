@@ -80,8 +80,13 @@ app.use("/api/contact", contactRoutes);
 app.use(notFound);
 app.use(errorHandler);
 
-// ── Start Server ──────────────────────────────
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`🚀  AgriLink server running on port ${PORT} [${process.env.NODE_ENV}]`);
-});
+// ── Start Server (local dev only) ─────────────
+// Vercel uses module.exports = app (serverless), not app.listen()
+if (require.main === module) {
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => {
+    console.log(`🚀  AgriLink server running on port ${PORT} [${process.env.NODE_ENV}]`);
+  });
+}
+
+module.exports = app;
