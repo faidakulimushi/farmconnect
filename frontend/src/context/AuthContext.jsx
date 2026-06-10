@@ -59,7 +59,9 @@ export function AuthProvider({ children }) {
       dispatch({ type: "AUTH_SUCCESS", payload: data });
       return data;
     } catch (err) {
-      const msg = err.response?.data?.message || "Login failed";
+      const msg = !err.response
+        ? "Cannot connect to server. Please try again later."
+        : err.response?.data?.message || "Login failed";
       dispatch({ type: "AUTH_FAIL", payload: msg });
       throw new Error(msg);
     }
@@ -76,7 +78,9 @@ export function AuthProvider({ children }) {
       dispatch({ type: "AUTH_SUCCESS", payload: data });
       return data;
     } catch (err) {
-      const msg = err.response?.data?.message || "Registration failed";
+      const msg = !err.response
+        ? "Cannot connect to server. Please try again later."
+        : err.response?.data?.message || "Registration failed";
       dispatch({ type: "AUTH_FAIL", payload: msg });
       throw new Error(msg);
     }
