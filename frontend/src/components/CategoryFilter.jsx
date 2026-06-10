@@ -31,7 +31,7 @@ export default function CategoryFilter({ selectedCategory, onSelect }) {
       >
         All Products
       </button>
-      {categories.map((cat) => (
+      {(categories || []).map((cat) => (
         <button
           key={cat._id}
           onClick={() => handleSelect(cat._id)}

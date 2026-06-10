@@ -70,7 +70,7 @@ export default function CustomerDashboard() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50 dark:divide-gray-800">
-                {orders.map((order) => (
+                {(orders || []).map((order) => (
                   <tr key={order._id}>
                     <td className="py-3 font-mono text-xs text-gray-700 dark:text-gray-300">#{order._id.slice(-8).toUpperCase()}</td>
                     <td className="py-3 text-gray-500 dark:text-gray-400">{formatDate(order.createdAt)}</td>

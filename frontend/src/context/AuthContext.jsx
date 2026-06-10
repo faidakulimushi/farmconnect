@@ -4,8 +4,12 @@ import api from "../services/api";
 
 const AuthContext = createContext(null);
 
+const _parseUser = () => {
+  try { return JSON.parse(localStorage.getItem("agrilink_user")) || null; }
+  catch { localStorage.removeItem("agrilink_user"); return null; }
+};
 const initialState = {
-  user: JSON.parse(localStorage.getItem("agrilink_user")) || null,
+  user: _parseUser(),
   token: localStorage.getItem("agrilink_token") || null,
   loading: false,
   error: null,

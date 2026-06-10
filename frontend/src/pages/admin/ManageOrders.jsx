@@ -53,7 +53,7 @@ export default function ManageOrders() {
       {loading ? <LoadingSpinner /> : (
         <div className="space-y-3">
           {filtered.length === 0 && <p className="text-center text-gray-500 py-8">No orders found.</p>}
-          {filtered.map((order) => (
+          {(filtered || []).map((order) => (
             <div key={order._id} className="card overflow-hidden">
               <button
                 onClick={() => setExpandedId(expandedId === order._id ? null : order._id)}

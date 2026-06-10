@@ -249,7 +249,7 @@ export default function ProductDetails() {
             {reviews.length === 0 && (
               <p className="text-gray-500 dark:text-gray-400 text-sm">No reviews yet. Be the first!</p>
             )}
-            {reviews.map((r) => (
+            {(reviews || []).map((r) => (
               <div key={r._id} className="card p-4">
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-8 h-8 rounded-full bg-primary-100 dark:bg-primary-900 flex items-center justify-center text-xs font-bold text-primary-700">

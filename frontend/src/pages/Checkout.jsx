@@ -108,7 +108,7 @@ export default function Checkout() {
             <div className="card p-6 sticky top-20">
               <h2 className="font-bold text-gray-900 dark:text-white mb-4">Order Summary</h2>
               <div className="space-y-3 max-h-60 overflow-y-auto mb-4">
-                {items.map(({ product, quantity }) => (
+                {(items || []).map(({ product, quantity }) => (
                   <div key={product._id} className="flex gap-3">
                     <img src={product.image || PLACEHOLDER_IMAGE} alt={product.title} className="w-12 h-12 rounded-lg object-cover bg-gray-100" onError={(e) => { e.target.src = PLACEHOLDER_IMAGE; }} />
                     <div className="flex-1 min-w-0">

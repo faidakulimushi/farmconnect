@@ -156,7 +156,7 @@ export default function SearchBar({ className = "" }) {
               No products found
             </li>
           ) : (
-            suggestions.map((s, i) => (
+            (suggestions || []).map((s, i) => (
               <li
                 key={`${s.type}-${s.label}`}
                 role="option"

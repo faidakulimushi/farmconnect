@@ -145,7 +145,7 @@ export default function Products() {
               <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Category</label>
               <select value={category} onChange={(e) => { setCategory(e.target.value); setPage(1); }} className="input text-sm">
                 <option value="">All Categories</option>
-                {categories.map((c) => (
+                {(categories || []).map((c) => (
                   <option key={c._id} value={c._id}>{c.name}</option>
                 ))}
               </select>
@@ -210,7 +210,7 @@ export default function Products() {
           ) : (
             <>
               <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mb-8">
-                {products.map((p) => <ProductCard key={p._id} product={p} />)}
+                {(products || []).map((p) => <ProductCard key={p._id} product={p} />)}
               </div>
               <Pagination page={pagination.page} pages={pagination.pages} onPageChange={setPage} />
             </>

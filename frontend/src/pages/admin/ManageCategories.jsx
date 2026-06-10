@@ -80,7 +80,7 @@ export default function ManageCategories() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
-                {categories.map((c) => (
+                {(categories || []).map((c) => (
                   <tr key={c._id} className="hover:bg-gray-50 dark:hover:bg-gray-800/50">
                     <td className="px-4 py-3">
                       {editingId === c._id ? (

@@ -33,7 +33,7 @@ export default function Cart() {
       <div className="grid lg:grid-cols-3 gap-8">
         {/* Items */}
         <div className="lg:col-span-2 space-y-4">
-          {items.map(({ product, quantity }) => (
+          {(items || []).map(({ product, quantity }) => (
             <div key={product._id} className="card p-4 flex gap-4">
               <img src={product.image || PLACEHOLDER_IMAGE} alt={product.title} className="w-20 h-20 rounded-xl object-cover bg-gray-100" onError={(e) => { e.target.src = PLACEHOLDER_IMAGE; }} />
               <div className="flex-1 min-w-0">
@@ -67,7 +67,7 @@ export default function Cart() {
           <div className="card p-6 sticky top-20">
             <h2 className="font-bold text-gray-900 dark:text-white text-lg mb-4">Order Summary</h2>
             <div className="space-y-3 text-sm border-b border-gray-100 dark:border-gray-700 pb-4 mb-4">
-              {items.map(({ product, quantity }) => (
+              {(items || []).map(({ product, quantity }) => (
                 <div key={product._id} className="flex justify-between text-gray-600 dark:text-gray-400">
                   <span className="truncate max-w-[180px]">{product.title} × {quantity}</span>
                   <span>{formatCurrency(product.price * quantity)}</span>

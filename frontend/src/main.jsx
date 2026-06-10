@@ -7,27 +7,30 @@ import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
 import { WishlistProvider } from "./context/WishlistContext";
 import { ThemeProvider } from "./context/ThemeContext";
+import ErrorBoundary from "./components/ErrorBoundary";
 import "./index.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
-      <ThemeProvider>
-        <AuthProvider>
-          <CartProvider>
-            <WishlistProvider>
-              <App />
-              <Toaster
-                position="top-right"
-                toastOptions={{
-                  duration: 3500,
-                  style: { borderRadius: "10px", fontFamily: "Inter, sans-serif" },
-                }}
-              />
-            </WishlistProvider>
-          </CartProvider>
-        </AuthProvider>
-      </ThemeProvider>
-    </BrowserRouter>
+    <ErrorBoundary>
+      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <ThemeProvider>
+          <AuthProvider>
+            <CartProvider>
+              <WishlistProvider>
+                <App />
+                <Toaster
+                  position="top-right"
+                  toastOptions={{
+                    duration: 3500,
+                    style: { borderRadius: "10px", fontFamily: "Inter, sans-serif" },
+                  }}
+                />
+              </WishlistProvider>
+            </CartProvider>
+          </AuthProvider>
+        </ThemeProvider>
+      </BrowserRouter>
+    </ErrorBoundary>
   </React.StrictMode>
 );

@@ -50,7 +50,7 @@ export default function AIRecommendations({ productId, title = "You Might Also L
         </Link>
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-        {recommendations.map((product) => (
+        {(recommendations || []).map((product) => (
           <ProductCard key={product._id} product={product} />
         ))}
       </div>

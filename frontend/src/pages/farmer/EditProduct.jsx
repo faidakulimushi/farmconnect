@@ -100,7 +100,7 @@ export default function EditProduct() {
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Category</label>
             <select value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} className="input">
               <option value="">Select category</option>
-              {categories.map((c) => <option key={c._id} value={c._id}>{c.name}</option>)}
+              {(categories || []).map((c) => <option key={c._id} value={c._id}>{c.name}</option>)}
             </select>
           </div>
           <div>

@@ -64,7 +64,7 @@ export default function FarmerProducts() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
-                {products.map((p) => (
+                {(products || []).map((p) => (
                   <tr key={p._id} className="hover:bg-gray-50 dark:hover:bg-gray-800/50 transition-colors">
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-3">

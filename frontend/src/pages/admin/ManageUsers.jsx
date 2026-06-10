@@ -75,7 +75,7 @@ export default function ManageUsers() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
-                {filtered.map((u) => (
+                {(filtered || []).map((u) => (
                   <tr key={u._id} className="hover:bg-gray-50 dark:hover:bg-gray-800/50">
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2">
