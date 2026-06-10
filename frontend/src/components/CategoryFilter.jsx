@@ -8,7 +8,7 @@ export default function CategoryFilter({ selectedCategory, onSelect }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    categoryService.getAll().then(({ data }) => setCategories(data.categories)).catch(() => {});
+    categoryService.getAll().then(({ data }) => setCategories(data.categories || [])).catch(() => {});
   }, []);
 
   const handleSelect = (catId) => {

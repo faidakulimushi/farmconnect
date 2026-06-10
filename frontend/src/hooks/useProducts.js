@@ -16,8 +16,8 @@ export function useProducts(initialParams = {}) {
     setError(null);
     try {
       const { data } = await productService.getAll(params);
-      setProducts(data.products);
-      setPagination({ page: data.page, pages: data.pages, total: data.total });
+      setProducts(data.products || []);
+      setPagination({ page: data.page || 1, pages: data.pages || 1, total: data.total || 0 });
     } catch (err) {
       setError(err.response?.data?.message || "Failed to load products");
     } finally {
