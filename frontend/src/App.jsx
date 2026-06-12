@@ -19,6 +19,7 @@ import Checkout from "./pages/Checkout";
 import Wishlist from "./pages/Wishlist";
 import Profile from "./pages/Profile";
 import OrderHistory from "./pages/OrderHistory";
+import OrderConfirmation from "./pages/OrderConfirmation";
 
 // ── Customer Dashboard ─────────────────────────────────────────────────────────
 import CustomerDashboard from "./pages/customer/CustomerDashboard";
@@ -58,6 +59,7 @@ export default function App() {
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/orders" element={<OrderHistory />} />
+          <Route path="/orders/:id" element={<OrderConfirmation />} />
         </Route>
 
         {/* Customer dashboard */}

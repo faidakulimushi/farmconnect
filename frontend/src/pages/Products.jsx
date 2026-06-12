@@ -210,7 +210,13 @@ export default function Products() {
           ) : (
             <>
               <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 mb-8">
-                {(products || []).map((p) => <ProductCard key={p._id} product={p} />)}
+                {(products || []).map((p) => (
+                  <ProductCard
+                    key={p._id}
+                    product={p}
+                    onDeleted={(deletedId) => setProducts((prev) => prev.filter((x) => x._id !== deletedId))}
+                  />
+                ))}
               </div>
               <Pagination page={pagination.page} pages={pagination.pages} onPageChange={setPage} />
             </>

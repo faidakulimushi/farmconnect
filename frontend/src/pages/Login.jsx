@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams, Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Sprout, Eye, EyeOff } from "lucide-react";
 import toast from "react-hot-toast";
@@ -17,8 +17,7 @@ export default function Login() {
   // Redirect if already logged in
   if (isAuthenticated) {
     const dashboards = { farmer: "/dashboard/farmer", admin: "/dashboard/admin", customer: "/dashboard/customer" };
-    navigate(redirect || dashboards[user?.role] || "/", { replace: true });
-    return null;
+    return <Navigate to={redirect || dashboards[user?.role] || "/"} replace />;
   }
 
   const handleSubmit = async (e) => {

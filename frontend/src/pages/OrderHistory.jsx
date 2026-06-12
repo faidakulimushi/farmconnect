@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { orderService } from "../services/orderService";
 import { formatCurrency, formatDate, statusColor, capitalise } from "../utils/helpers";
-import { Package, ChevronDown, ChevronUp } from "lucide-react";
+import { Package, ChevronDown, ChevronUp, ExternalLink } from "lucide-react";
 import { PLACEHOLDER_IMAGE } from "../utils/constants";
 import LoadingSpinner from "../components/LoadingSpinner";
 
@@ -52,6 +53,13 @@ export default function OrderHistory() {
                 </div>
                 <div className="flex items-center gap-4">
                   <span className="font-bold text-primary-600 dark:text-primary-400">{formatCurrency(order.totalPrice)}</span>
+                  <Link
+                    to={`/orders/${order._id}`}
+                    onClick={(e) => e.stopPropagation()}
+                    className="hidden sm:flex items-center gap-1 text-xs text-primary-600 dark:text-primary-400 hover:underline"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5" /> Details
+                  </Link>
                   {expandedId === order._id ? <ChevronUp className="w-4 h-4 text-gray-400" /> : <ChevronDown className="w-4 h-4 text-gray-400" />}
                 </div>
               </button>

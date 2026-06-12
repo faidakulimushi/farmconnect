@@ -37,7 +37,11 @@ export default function FeaturedProducts() {
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5">
           {(featured || []).map((product) => (
-            <ProductCard key={product._id} product={product} />
+            <ProductCard
+              key={product._id}
+              product={product}
+              onDeleted={(deletedId) => setFeatured((prev) => prev.filter((x) => x._id !== deletedId))}
+            />
           ))}
         </div>
       </div>

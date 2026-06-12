@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
-import { ShoppingCart, Heart, MapPin, Star, Package, ChevronRight, Loader2 } from "lucide-react";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { ShoppingCart, Heart, MapPin, Star, Package, ChevronRight, Loader2, Pencil, Trash2 } from "lucide-react";
 import { productService } from "../services/productService";
 import { reviewService } from "../services/reviewService";
 import { useCart } from "../context/CartContext";
@@ -16,6 +16,7 @@ import toast from "react-hot-toast";
 
 export default function ProductDetails() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { addToCart, isAdding } = useCart();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   const { isAuthenticated, user } = useAuth();
@@ -51,6 +52,24 @@ export default function ProductDetails() {
   }, [id]);
 
   const adding = product ? isAdding(product._id) : false;
+
+  const isOwner =
+    isAuthenticated &&
+    user &&
+    product &&
+    (user.role === "admin" ||
+      (product.farmer && user._id === (product.farmer._id ?? product.farmer).toString()));
+
+  const handleDeleteProduct = async () => {
+    if (!window.confirm(`Delete "${product.title}"? This cannot be undone.`)) return;
+    try {
+      await productService.delete(product._id);
+      toast.success("Product deleted.");
+      navigate("/products");
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to delete product");
+    }
+  };
 
   // ── Dynamic Open Graph + Twitter Card meta tags ──────────────────────────
   // NOTE: Because this is a client-side SPA, crawlers that don't execute JS
@@ -184,6 +203,24 @@ export default function ProductDetails() {
           <p className="text-sm text-gray-500 mb-5">per {product.unit || "kg"}</p>
 
           <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-6">{product.description}</p>
+
+          {/* Owner actions */}
+          {isOwner && (
+            <div className="flex gap-3 mb-6">
+              <button
+                onClick={() => navigate(`/dashboard/farmer/products/edit/${product._id}`)}
+                className="flex items-center gap-2 px-4 py-2 rounded-lg border border-primary-300 dark:border-primary-700 text-primary-700 dark:text-primary-400 bg-primary-50 dark:bg-primary-900/20 hover:bg-primary-100 dark:hover:bg-primary-900/40 text-sm font-medium transition-colors"
+              >
+                <Pencil className="w-4 h-4" /> Edit Product
+              </button>
+              <button
+                onClick={handleDeleteProduct}
+                className="flex items-center gap-2 px-4 py-2 rounded-lg border border-red-300 dark:border-red-700 text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/40 text-sm font-medium transition-colors"
+              >
+                <Trash2 className="w-4 h-4" /> Delete Product
+              </button>
+            </div>
+          )}
 
           {/* Social share */}
           <div className="mb-5">

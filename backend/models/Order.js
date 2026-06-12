@@ -43,7 +43,17 @@ const orderSchema = new mongoose.Schema(
     },
     paymentMethod: {
       type: String,
-      enum: ["cash_on_delivery", "card", "mobile_money"],
+      enum: [
+        "cash_on_delivery",
+        "card",
+        "mobile_money",
+        "mpesa",
+        "airtel_money",
+        "mtn_money",
+        "orange_money",
+        "paypal",
+        "bank_transfer",
+      ],
       default: "cash_on_delivery",
     },
     isPaid: { type: Boolean, default: false },

@@ -1,16 +1,24 @@
-import { Link } from "react-router-dom";
-import { ShoppingCart, Heart, Star, Loader2 } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { ShoppingCart, Heart, Star, Loader2, Pencil, Trash2 } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import { useWishlist } from "../context/WishlistContext";
 import { useAuth } from "../context/AuthContext";
+import { productService } from "../services/productService";
 import { formatCurrency, truncate } from "../utils/helpers";
 import { PLACEHOLDER_IMAGE } from "../utils/constants";
 import toast from "react-hot-toast";
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, onDeleted }) {
+  const navigate = useNavigate();
   const { addToCart, isAdding } = useCart();
   const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
+
+  const isOwner =
+    isAuthenticated &&
+    user &&
+    (user.role === "admin" ||
+      (product.farmer && user._id === (product.farmer._id ?? product.farmer).toString()));
 
   const inWishlist = isInWishlist(product._id);
   const adding = isAdding(product._id);
@@ -31,6 +39,23 @@ export default function ProductCard({ product }) {
       return;
     }
     inWishlist ? removeFromWishlist(product._id) : addToWishlist(product._id);
+  };
+
+  const handleEdit = (e) => {
+    e.preventDefault();
+    navigate(`/dashboard/farmer/products/edit/${product._id}`);
+  };
+
+  const handleDelete = async (e) => {
+    e.preventDefault();
+    if (!window.confirm(`Delete "${product.title}"? This cannot be undone.`)) return;
+    try {
+      await productService.delete(product._id);
+      toast.success("Product deleted.");
+      if (onDeleted) onDeleted(product._id);
+    } catch (err) {
+      toast.error(err.response?.data?.message || "Failed to delete product");
+    }
   };
 
   return (
@@ -104,6 +129,24 @@ export default function ProductCard({ product }) {
             {adding ? "Adding…" : "Add"}
           </button>
         </div>
+
+        {/* Owner actions */}
+        {isOwner && (
+          <div className="flex gap-2 mt-3 pt-3 border-t border-gray-100 dark:border-gray-700">
+            <button
+              onClick={handleEdit}
+              className="flex-1 flex items-center justify-center gap-1.5 text-xs font-medium py-1.5 rounded-lg bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400 hover:bg-primary-100 dark:hover:bg-primary-900/50 transition-colors"
+            >
+              <Pencil className="w-3.5 h-3.5" /> Edit
+            </button>
+            <button
+              onClick={handleDelete}
+              className="flex-1 flex items-center justify-center gap-1.5 text-xs font-medium py-1.5 rounded-lg bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/50 transition-colors"
+            >
+              <Trash2 className="w-3.5 h-3.5" /> Delete
+            </button>
+          </div>
+        )}
       </div>
     </Link>
   );

@@ -183,4 +183,35 @@ const updateOrderStatus = asyncHandler(async (req, res) => {
   res.json({ success: true, order: updated });
 });
 
-module.exports = { createOrder, getMyOrders, getAllOrders, getOrderById, updateOrderStatus };
+// ─────────────────────────────────────────
+// @desc    Mark an order as paid (simulated card / mobile payment)
+// @route   PUT /api/orders/:id/pay
+// @access  Private – order owner only
+// ─────────────────────────────────────────
+const payOrder = asyncHandler(async (req, res) => {
+  const order = await Order.findById(req.params.id);
+
+  if (!order) {
+    res.status(404);
+    throw new Error("Order not found");
+  }
+
+  if (order.customer.toString() !== req.user._id.toString()) {
+    res.status(403);
+    throw new Error("Not authorised to pay for this order");
+  }
+
+  if (order.isPaid) {
+    res.status(400);
+    throw new Error("Order is already paid");
+  }
+
+  order.isPaid = true;
+  order.paidAt = Date.now();
+  order.paymentStatus = "paid";
+
+  const updated = await order.save();
+  res.json({ success: true, order: updated });
+});
+
+module.exports = { createOrder, getMyOrders, getAllOrders, getOrderById, updateOrderStatus, payOrder };
