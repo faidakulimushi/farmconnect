@@ -98,13 +98,16 @@ export default function Checkout() {
                   { key: "zip", label: "ZIP / Postal Code" },
                 ].map(({ key, label, full }) => (
                   <div key={key} className={full ? "sm:col-span-2" : ""}>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{label}</label>
+                    <label htmlFor={key} className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">{label}</label>
                     <input
+                      id={key}
+                      name={key}
                       value={address[key]}
                       onChange={(e) => setAddress({ ...address, [key]: e.target.value })}
                       placeholder={label}
                       className="input"
                       required
+                      autoComplete={key === "zip" ? "postal-code" : key === "street" ? "street-address" : key === "city" ? "address-level2" : key === "state" ? "address-level1" : "country-name"}
                     />
                   </div>
                 ))}

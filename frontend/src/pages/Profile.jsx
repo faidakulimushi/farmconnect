@@ -68,26 +68,26 @@ export default function Profile() {
               </div>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Full Name</label>
-              <input value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="input" required />
+              <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Full Name</label>
+              <input id="name" name="name" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} className="input" required autoComplete="name" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Phone</label>
-              <input value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="input" placeholder="+1 (555) 000-0000" />
+              <label htmlFor="phone" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Phone</label>
+              <input id="phone" name="phone" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} className="input" placeholder="+1 (555) 000-0000" autoComplete="tel" />
             </div>
             {user?.role === "farmer" && (
               <>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Farm Name</label>
-                  <input value={form.farmName} onChange={(e) => setForm({ ...form, farmName: e.target.value })} className="input" />
+                  <label htmlFor="farmName" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Farm Name</label>
+                  <input id="farmName" name="farmName" value={form.farmName} onChange={(e) => setForm({ ...form, farmName: e.target.value })} className="input" autoComplete="organization" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Farm Location</label>
-                  <input value={form.farmLocation} onChange={(e) => setForm({ ...form, farmLocation: e.target.value })} className="input" placeholder="City, Country" />
+                  <label htmlFor="farmLocation" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Farm Location</label>
+                  <input id="farmLocation" name="farmLocation" value={form.farmLocation} onChange={(e) => setForm({ ...form, farmLocation: e.target.value })} className="input" placeholder="City, Country" autoComplete="address-level2" />
                 </div>
                 <div className="sm:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Farm Description</label>
-                  <textarea value={form.farmDescription} onChange={(e) => setForm({ ...form, farmDescription: e.target.value })} rows={3} className="input resize-none" />
+                  <label htmlFor="farmDescription" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Farm Description</label>
+                  <textarea id="farmDescription" name="farmDescription" value={form.farmDescription} onChange={(e) => setForm({ ...form, farmDescription: e.target.value })} rows={3} className="input resize-none" />
                 </div>
               </>
             )}
@@ -107,12 +107,12 @@ export default function Profile() {
           </div>
           <form onSubmit={handlePasswordChange} className="grid sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">New Password</label>
-              <input type="password" value={password.newPass} onChange={(e) => setPassword({ ...password, newPass: e.target.value })} className="input" placeholder="Min 6 characters" required />
+              <label htmlFor="newPass" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">New Password</label>
+              <input id="newPass" name="newPass" type="password" value={password.newPass} onChange={(e) => setPassword({ ...password, newPass: e.target.value })} className="input" placeholder="Min 6 characters" required autoComplete="new-password" />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Confirm Password</label>
-              <input type="password" value={password.confirm} onChange={(e) => setPassword({ ...password, confirm: e.target.value })} className="input" placeholder="Repeat new password" required />
+              <label htmlFor="confirmPass" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Confirm Password</label>
+              <input id="confirmPass" name="confirmPass" type="password" value={password.confirm} onChange={(e) => setPassword({ ...password, confirm: e.target.value })} className="input" placeholder="Repeat new password" required autoComplete="new-password" />
             </div>
             <div className="sm:col-span-2">
               <button type="submit" disabled={saving} className="btn-secondary gap-2">

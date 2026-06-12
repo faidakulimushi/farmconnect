@@ -273,11 +273,14 @@ export default function PaymentModal({ isOpen, onClose, onConfirm, amount }) {
                     📧 PayPal Email Address
                   </label>
                   <input
+                    id="paypal-email"
+                    name="paypal-email"
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder={provider.placeholder}
                     className="input w-full"
+                    autoComplete="email"
                     autoFocus
                   />
                   <p className="text-xs text-gray-400 mt-2">
@@ -314,21 +317,21 @@ export default function PaymentModal({ isOpen, onClose, onConfirm, amount }) {
                     </div>
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Cardholder Name</label>
-                    <input value={card.name} onChange={(e) => setCard({ ...card, name: e.target.value })} placeholder="Name on card" className="input" autoComplete="cc-name" />
+                    <label htmlFor="cc-name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Cardholder Name</label>
+                    <input id="cc-name" name="cc-name" value={card.name} onChange={(e) => setCard({ ...card, name: e.target.value })} placeholder="Name on card" className="input" autoComplete="cc-name" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Card Number</label>
-                    <input value={card.number} onChange={(e) => setCard({ ...card, number: fmtCard(e.target.value) })} placeholder="0000 0000 0000 0000" className="input font-mono tracking-widest" autoComplete="cc-number" inputMode="numeric" />
+                    <label htmlFor="cc-number" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Card Number</label>
+                    <input id="cc-number" name="cc-number" value={card.number} onChange={(e) => setCard({ ...card, number: fmtCard(e.target.value) })} placeholder="0000 0000 0000 0000" className="input font-mono tracking-widest" autoComplete="cc-number" inputMode="numeric" />
                   </div>
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Expiry Date</label>
-                      <input value={card.expiry} onChange={(e) => setCard({ ...card, expiry: fmtExp(e.target.value) })} placeholder="MM/YY" className="input" autoComplete="cc-exp" inputMode="numeric" />
+                      <label htmlFor="cc-exp" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Expiry Date</label>
+                      <input id="cc-exp" name="cc-exp" value={card.expiry} onChange={(e) => setCard({ ...card, expiry: fmtExp(e.target.value) })} placeholder="MM/YY" className="input" autoComplete="cc-exp" inputMode="numeric" />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">CVV</label>
-                      <input value={card.cvv} onChange={(e) => setCard({ ...card, cvv: e.target.value.replace(/\D/g, "").slice(0, 4) })} placeholder="•••" type="password" className="input" autoComplete="cc-csc" inputMode="numeric" />
+                      <label htmlFor="cc-csc" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">CVV</label>
+                      <input id="cc-csc" name="cc-csc" value={card.cvv} onChange={(e) => setCard({ ...card, cvv: e.target.value.replace(/\D/g, "").slice(0, 4) })} placeholder="•••" type="password" className="input" autoComplete="cc-csc" inputMode="numeric" />
                     </div>
                   </div>
                 </div>
@@ -361,10 +364,13 @@ export default function PaymentModal({ isOpen, onClose, onConfirm, amount }) {
                       Transaction Reference / Receipt No.
                     </label>
                     <input
+                      id="tx-ref"
+                      name="tx-ref"
                       value={txRef}
                       onChange={(e) => setTxRef(e.target.value)}
                       placeholder={provider.placeholder}
                       className="input w-full font-mono"
+                      autoComplete="off"
                       autoFocus
                     />
                     <p className="text-xs text-gray-400 mt-1.5">

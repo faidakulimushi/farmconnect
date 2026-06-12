@@ -136,14 +136,14 @@ export default function Products() {
 
             {/* Search */}
             <div>
-              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Search</label>
-              <input value={keyword} onChange={(e) => { setKeyword(e.target.value); setPage(1); }} placeholder="Search products…" className="input text-sm" />
+              <label htmlFor="search" className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Search</label>
+              <input id="search" name="search" value={keyword} onChange={(e) => { setKeyword(e.target.value); setPage(1); }} placeholder="Search products…" className="input text-sm" />
             </div>
 
             {/* Category */}
             <div>
-              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Category</label>
-              <select value={category} onChange={(e) => { setCategory(e.target.value); setPage(1); }} className="input text-sm">
+              <label htmlFor="category" className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Category</label>
+              <select id="category" name="category" value={category} onChange={(e) => { setCategory(e.target.value); setPage(1); }} className="input text-sm">
                 <option value="">All Categories</option>
                 {(categories || []).map((c) => (
                   <option key={c._id} value={c._id}>{c.name}</option>
@@ -153,8 +153,8 @@ export default function Products() {
 
             {/* Sort */}
             <div>
-              <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Sort By</label>
-              <select value={sort} onChange={(e) => { setSort(e.target.value); setPage(1); }} className="input text-sm">
+              <label htmlFor="sort" className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">Sort By</label>
+              <select id="sort" name="sort" value={sort} onChange={(e) => { setSort(e.target.value); setPage(1); }} className="input text-sm">
                 {SORT_OPTIONS.map((o) => (
                   <option key={o.value} value={o.value}>{o.label}</option>
                 ))}

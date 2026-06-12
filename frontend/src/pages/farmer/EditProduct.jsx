@@ -83,33 +83,33 @@ export default function EditProduct() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Title *</label>
-          <input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} className="input" required />
+          <label htmlFor="title" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Title *</label>
+          <input id="title" name="title" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} className="input" required />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Description</label>
-          <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} rows={4} className="input resize-none" />
+          <label htmlFor="description" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Description</label>
+          <textarea id="description" name="description" value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} rows={4} className="input resize-none" />
         </div>
 
         <div className="grid sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Price ($)</label>
-            <input type="number" value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} min={0} step={0.01} className="input" />
+            <label htmlFor="price" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Price ($)</label>
+            <input id="price" name="price" type="number" value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} min={0} step={0.01} className="input" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Category</label>
-            <select value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} className="input">
+            <label htmlFor="category" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Category</label>
+            <select id="category" name="category" value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} className="input">
               <option value="">Select category</option>
               {(categories || []).map((c) => <option key={c._id} value={c._id}>{c.name}</option>)}
             </select>
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Stock Quantity</label>
-            <input type="number" value={form.quantity} onChange={(e) => setForm({ ...form, quantity: e.target.value })} min={0} className="input" />
+            <label htmlFor="quantity" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Stock Quantity</label>
+            <input id="quantity" name="quantity" type="number" value={form.quantity} onChange={(e) => setForm({ ...form, quantity: e.target.value })} min={0} className="input" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Unit</label>
-            <select value={form.unit} onChange={(e) => setForm({ ...form, unit: e.target.value })} className="input">
+            <label htmlFor="unit" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Unit</label>
+            <select id="unit" name="unit" value={form.unit} onChange={(e) => setForm({ ...form, unit: e.target.value })} className="input">
               {["kg", "g", "litre", "ml", "piece", "dozen", "bunch"].map((u) => <option key={u} value={u}>{u}</option>)}
             </select>
           </div>

@@ -52,15 +52,15 @@ export default function Login() {
         <div className="card p-8 shadow-sm">
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Email Address</label>
-              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" className="input" required autoComplete="email" />
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5">Email Address</label>
+              <input id="email" name="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" className="input" required autoComplete="email" />
             </div>
             <div>
               <div className="flex justify-between items-center mb-1.5">
-                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
+                <label htmlFor="password" className="text-sm font-medium text-gray-700 dark:text-gray-300">Password</label>
               </div>
               <div className="relative">
-                <input type={showPass ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" className="input pr-10" required autoComplete="current-password" />
+                <input id="password" name="password" type={showPass ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" className="input pr-10" required autoComplete="current-password" />
                 <button type="button" onClick={() => setShowPass(!showPass)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
                   {showPass ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
