@@ -1,51 +1,56 @@
 // @refresh reset
 import { createContext, useContext, useEffect, useState } from "react";
-import api from "../services/api";
-import { useAuth } from "./AuthContext";
 import toast from "react-hot-toast";
+
+const STORAGE_KEY = "farmconnect_wishlist";
 
 const WishlistContext = createContext(null);
 
 export function WishlistProvider({ children }) {
-  const [wishlist, setWishlist] = useState([]);
-  const { isAuthenticated } = useAuth();
-
-  useEffect(() => {
-    if (isAuthenticated) fetchWishlist();
-    else setWishlist([]);
-  }, [isAuthenticated]);
-
-  const fetchWishlist = async () => {
+  const [wishlist, setWishlist] = useState(() => {
     try {
-      const { data } = await api.get("/wishlist");
-      setWishlist(data.products || []);
-    } catch { /* silent */ }
-  };
-
-  const addToWishlist = async (productId) => {
-    try {
-      await api.post("/wishlist", { productId });
-      await fetchWishlist();
-      toast.success("Added to wishlist");
-    } catch (err) {
-      toast.error(err.response?.data?.message || "Failed to add to wishlist");
-    }
-  };
-
-  const removeFromWishlist = async (productId) => {
-    try {
-      await api.delete(`/wishlist/${productId}`);
-      setWishlist((prev) => prev.filter((p) => p._id !== productId));
-      toast.success("Removed from wishlist");
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
     } catch {
-      toast.error("Could not remove from wishlist");
+      return [];
+    }
+  });
+
+  // Persist to localStorage whenever wishlist changes
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(wishlist));
+    } catch { /* storage full or unavailable */ }
+  }, [wishlist]);
+
+  const addToWishlist = (product) => {
+    setWishlist((prev) => {
+      if (prev.some((p) => p._id === product._id)) return prev;
+      toast.success("Added to wishlist");
+      return [...prev, product];
+    });
+  };
+
+  const removeFromWishlist = (productId) => {
+    setWishlist((prev) => {
+      toast.success("Removed from wishlist");
+      return prev.filter((p) => p._id !== productId);
+    });
+  };
+
+  const toggleWishlist = (product) => {
+    if (wishlist.some((p) => p._id === product._id)) {
+      removeFromWishlist(product._id);
+    } else {
+      addToWishlist(product);
     }
   };
 
   const isInWishlist = (productId) => wishlist.some((p) => p._id === productId);
 
+  const wishlistCount = wishlist.length;
+
   return (
-    <WishlistContext.Provider value={{ wishlist, addToWishlist, removeFromWishlist, isInWishlist, fetchWishlist }}>
+    <WishlistContext.Provider value={{ wishlist, addToWishlist, removeFromWishlist, toggleWishlist, isInWishlist, wishlistCount }}>
       {children}
     </WishlistContext.Provider>
   );

@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
 import { useTheme } from "../context/ThemeContext";
+import { useWishlist } from "../context/WishlistContext";
 import {
   Sprout, ShoppingCart, Heart, Sun, Moon, Menu, X,
   User, LogOut, LayoutDashboard, Package, Facebook, Instagram,
@@ -28,6 +29,7 @@ export default function Navbar() {
   const { user, isAuthenticated, logout } = useAuth();
   const { cartCount } = useCart();
   const { darkMode, toggleTheme } = useTheme();
+  const { wishlistCount } = useWishlist();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const navigate = useNavigate();
@@ -101,13 +103,22 @@ export default function Navbar() {
               {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </button>
 
+            {/* Wishlist – visible for all users */}
+            <Link
+              to="/wishlist"
+              className="relative p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              aria-label="Wishlist"
+            >
+              <Heart className={`w-5 h-5 transition-colors ${wishlistCount > 0 ? "fill-red-500 text-red-500" : ""}`} />
+              {wishlistCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center font-bold">
+                  {wishlistCount > 9 ? "9+" : wishlistCount}
+                </span>
+              )}
+            </Link>
+
             {isAuthenticated ? (
               <>
-                {/* Wishlist */}
-                <Link to="/wishlist" className="p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-                  <Heart className="w-5 h-5" />
-                </Link>
-
                 {/* Cart */}
                 <Link to="/cart" className="relative p-2 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
                   <ShoppingCart className="w-5 h-5" />
@@ -177,6 +188,15 @@ export default function Navbar() {
             <Link to="/products" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg">Products</Link>
             <Link to="/about" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg">About</Link>
             <Link to="/contact" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg">Contact</Link>
+            <Link to="/wishlist" onClick={() => setMobileOpen(false)} className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-lg">
+              <Heart className={`w-4 h-4 ${wishlistCount > 0 ? "fill-red-500 text-red-500" : ""}`} />
+              Wishlist
+              {wishlistCount > 0 && (
+                <span className="ml-auto px-1.5 py-0.5 text-xs font-bold bg-red-500 text-white rounded-full">
+                  {wishlistCount > 9 ? "9+" : wishlistCount}
+                </span>
+              )}
+            </Link>
             {!isAuthenticated && (
               <div className="flex gap-2 pt-2">
                 <Link to="/login" onClick={() => setMobileOpen(false)} className="btn-secondary btn-sm flex-1 text-center">Login</Link>

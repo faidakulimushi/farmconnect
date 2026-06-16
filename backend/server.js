@@ -40,6 +40,8 @@ app.use(
     origin: (origin, cb) => {
       // Allow no-origin requests (Postman, curl, mobile apps)
       if (!origin) return cb(null, true);
+      // Allow any localhost port (Vite uses 5173-5200+)
+      if (/^http:\/\/localhost:\d+$/.test(origin)) return cb(null, true);
       // Allow any vercel.app or onrender.com preview URL
       if (
         allowedOrigins.includes(origin) ||

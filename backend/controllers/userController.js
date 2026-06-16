@@ -35,7 +35,8 @@ const getUserById = asyncHandler(async (req, res) => {
 });
 
 // ─────────────────────────────────────────
-// @desc    Update user role or active status (admin)
+// @desc    Update user active status / verification (admin)
+//          Role changes are ONLY allowed via /promote or /demote endpoints.
 // @route   PUT /api/users/:id
 // @access  Private / Admin
 // ─────────────────────────────────────────
@@ -46,13 +47,72 @@ const updateUser = asyncHandler(async (req, res) => {
     throw new Error("User not found");
   }
 
-  const { role, isActive, isVerified } = req.body;
-  if (role) user.role = role;
+  // Block role escalation through this generic endpoint
+  if (req.body.role !== undefined) {
+    res.status(403);
+    throw new Error("Role changes must use the /promote or /demote endpoints");
+  }
+
+  const { isActive, isVerified } = req.body;
   if (isActive !== undefined) user.isActive = isActive;
   if (isVerified !== undefined) user.isVerified = isVerified;
 
   const updated = await user.save();
   res.json({ success: true, user: updated });
+});
+
+// ─────────────────────────────────────────
+// @desc    Promote a user to admin (admin only)
+// @route   PUT /api/users/:id/promote
+// @access  Private / Admin
+// ─────────────────────────────────────────
+const promoteToAdmin = asyncHandler(async (req, res) => {
+  if (req.params.id === req.user._id.toString()) {
+    res.status(400);
+    throw new Error("You cannot change your own admin privileges");
+  }
+
+  const user = await User.findById(req.params.id);
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  if (user.role === "admin") {
+    res.status(400);
+    throw new Error("User is already an admin");
+  }
+
+  user.role = "admin";
+  const updated = await user.save();
+  res.json({ success: true, message: `${updated.name} has been promoted to admin`, user: updated });
+});
+
+// ─────────────────────────────────────────
+// @desc    Remove admin privileges from a user (admin only)
+// @route   PUT /api/users/:id/demote
+// @access  Private / Admin
+// ─────────────────────────────────────────
+const demoteFromAdmin = asyncHandler(async (req, res) => {
+  if (req.params.id === req.user._id.toString()) {
+    res.status(400);
+    throw new Error("You cannot remove your own admin privileges");
+  }
+
+  const user = await User.findById(req.params.id);
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  if (user.role !== "admin") {
+    res.status(400);
+    throw new Error("User is not an admin");
+  }
+
+  user.role = "customer";
+  const updated = await user.save();
+  res.json({ success: true, message: `${updated.name}'s admin privileges have been removed`, user: updated });
 });
 
 // ─────────────────────────────────────────
@@ -161,4 +221,4 @@ const getFarmerStats = asyncHandler(async (req, res) => {
   });
 });
 
-module.exports = { getAllUsers, getUserById, updateUser, deleteUser, getDashboardStats, getFarmerStats };
+module.exports = { getAllUsers, getUserById, updateUser, deleteUser, promoteToAdmin, demoteFromAdmin, getDashboardStats, getFarmerStats };

@@ -34,11 +34,7 @@ export default function ProductCard({ product, onDeleted }) {
 
   const handleWishlist = (e) => {
     e.preventDefault();
-    if (!isAuthenticated) {
-      toast.error("Please log in to use the wishlist.");
-      return;
-    }
-    inWishlist ? removeFromWishlist(product._id) : addToWishlist(product._id);
+    inWishlist ? removeFromWishlist(product._id) : addToWishlist(product);
   };
 
   const handleEdit = (e) => {
@@ -81,10 +77,10 @@ export default function ProductCard({ product, onDeleted }) {
         {/* Wishlist button */}
         <button
           onClick={handleWishlist}
-          className="absolute top-2 right-2 w-8 h-8 rounded-full bg-white dark:bg-gray-800 shadow flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:scale-110"
+          className={`absolute top-2 right-2 w-8 h-8 rounded-full bg-white dark:bg-gray-800 shadow flex items-center justify-center transition-all hover:scale-110 ${inWishlist ? "opacity-100" : "opacity-60 group-hover:opacity-100"}`}
           aria-label={inWishlist ? "Remove from wishlist" : "Add to wishlist"}
         >
-          <Heart className={`w-4 h-4 ${inWishlist ? "fill-red-500 text-red-500" : "text-gray-400"}`} />
+          <Heart className={`w-4 h-4 transition-colors ${inWishlist ? "fill-red-500 text-red-500" : "text-gray-400 hover:text-red-400"}`} />
         </button>
       </div>
 
