@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { productService } from "../../services/productService";
 import { categoryService } from "../../services/categoryService";
+import { useAuth } from "../../context/AuthContext";
 import { Upload, ArrowLeft } from "lucide-react";
 import { PLACEHOLDER_IMAGE } from "../../utils/constants";
 import toast from "react-hot-toast";
@@ -10,6 +11,8 @@ import LoadingSpinner from "../../components/LoadingSpinner";
 export default function EditProduct() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const backPath = user?.role === "admin" ? "/dashboard/admin/products" : "/dashboard/farmer/products";
   const [categories, setCategories] = useState([]);
   const [form, setForm] = useState(null);
   const [image, setImage] = useState(null);
@@ -50,7 +53,7 @@ export default function EditProduct() {
       if (image) fd.append("image", image);
       await productService.update(id, fd);
       toast.success("Product updated!");
-      navigate("/dashboard/farmer/products");
+      navigate(backPath);
     } catch (err) {
       toast.error(err.response?.data?.message || "Update failed");
     } finally {

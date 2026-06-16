@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { userService } from "../../services/userService";
 import { formatCurrency, formatDate, statusColor, capitalise } from "../../utils/helpers";
-import { Users, Package, ShoppingBag, DollarSign } from "lucide-react";
+import { Users, Package, ShoppingBag, DollarSign, CheckCircle, Link } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
 import LoadingSpinner from "../../components/LoadingSpinner";
+import { useNavigate } from "react-router-dom";
 
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -27,12 +28,15 @@ export default function AdminDashboard() {
     orders: d.count,
   })) || [];
 
+  const deliveredOrders = stats.ordersByStatus?.find((s) => s._id === "delivered")?.count ?? 0;
+
   const statCards = [
     { icon: Users, label: "Total Customers", value: stats.totalUsers, color: "text-blue-600 bg-blue-50 dark:bg-blue-900/30" },
     { icon: Users, label: "Total Farmers", value: stats.totalFarmers, color: "text-purple-600 bg-purple-50 dark:bg-purple-900/30" },
     { icon: Package, label: "Active Products", value: stats.totalProducts, color: "text-orange-600 bg-orange-50 dark:bg-orange-900/30" },
     { icon: ShoppingBag, label: "Total Orders", value: stats.totalOrders, color: "text-red-600 bg-red-50 dark:bg-red-900/30" },
-    { icon: DollarSign, label: "Total Revenue", value: formatCurrency(stats.totalRevenue), color: "text-green-600 bg-green-50 dark:bg-green-900/30" },
+    { icon: CheckCircle, label: "Delivered Orders", value: deliveredOrders, color: "text-green-600 bg-green-50 dark:bg-green-900/30" },
+    { icon: DollarSign, label: "Total Revenue", value: formatCurrency(stats.totalRevenue), color: "text-emerald-600 bg-emerald-50 dark:bg-emerald-900/30" },
   ];
 
   return (
@@ -40,7 +44,7 @@ export default function AdminDashboard() {
       <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Admin Dashboard</h1>
 
       {/* Stat Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
         {statCards.map(({ icon: Icon, label, value, color }) => (
           <div key={label} className="card p-4">
             <div className={`w-9 h-9 rounded-xl flex items-center justify-center mb-2 ${color}`}>

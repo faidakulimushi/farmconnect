@@ -2,11 +2,14 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { productService } from "../../services/productService";
 import { categoryService } from "../../services/categoryService";
+import { useAuth } from "../../context/AuthContext";
 import { Upload, ArrowLeft } from "lucide-react";
 import toast from "react-hot-toast";
 
 export default function AddProduct() {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const backPath = user?.role === "admin" ? "/dashboard/admin/products" : "/dashboard/farmer/products";
   const [categories, setCategories] = useState([]);
   const [form, setForm] = useState({ title: "", description: "", price: "", category: "", quantity: "", unit: "kg", tags: "", isFeatured: false });
   const [image, setImage] = useState(null);
@@ -36,7 +39,7 @@ export default function AddProduct() {
 
       await productService.create(fd);
       toast.success("Product listed successfully!");
-      navigate("/dashboard/farmer/products");
+      navigate(backPath);
     } catch (err) {
       toast.error(err.response?.data?.message || "Failed to create product");
     } finally {
