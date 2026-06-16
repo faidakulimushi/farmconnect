@@ -69,20 +69,35 @@ async function seed() {
       console.log("👤 Demo farmer already exists");
     }
 
-    // Create or find a demo admin account
-    let admin = await User.findOne({ email: "admin@agrilink.com" });
-    if (!admin) {
-      const hashed = await bcrypt.hash("Admin123!", 12);
-      admin = await User.create({
-        name: "Admin User",
-        email: "admin@agrilink.com",
-        password: hashed,
-        role: "admin",
-        isVerified: true,
-      });
-      console.log("👤 Admin created: admin@agrilink.com / Admin123!");
+    // ── Create the real site-owner admin account ─────────────────────────────
+    // Email is fixed; password comes from ADMIN_PASSWORD env var.
+    const ADMIN_EMAIL = "faidakulimushi431@gmail.com";
+    const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+    if (!ADMIN_PASSWORD) {
+      console.error("❌  ADMIN_PASSWORD is not set in .env – skipping admin creation");
     } else {
-      console.log("👤 Admin already exists");
+      let admin = await User.findOne({ email: ADMIN_EMAIL });
+      if (!admin) {
+        const hashed = await bcrypt.hash(ADMIN_PASSWORD, 12);
+        admin = await User.create({
+          name: "Faida Kulimushi",
+          email: ADMIN_EMAIL,
+          password: hashed,
+          role: "admin",
+          isVerified: true,
+          isActive: true,
+        });
+        console.log(`👤 Admin created: ${ADMIN_EMAIL}`);
+      } else {
+        // Ensure the existing account always has the admin role
+        if (admin.role !== "admin") {
+          admin.role = "admin";
+          await admin.save();
+          console.log(`👤 Admin role restored for: ${ADMIN_EMAIL}`);
+        } else {
+          console.log(`👤 Admin already exists: ${ADMIN_EMAIL}`);
+        }
+      }
     }
 
     // Upsert categories
@@ -128,7 +143,7 @@ async function seed() {
     console.log(`\n🌱 Seeding complete! ${created} new products added.`);
     console.log("\nDemo accounts:");
     console.log("  Farmer: farmer@agrilink.com  /  Farmer123!");
-    console.log("  Admin:  admin@agrilink.com   /  Admin123!");
+    console.log("  Admin:  faidakulimushi431@gmail.com  /  <ADMIN_PASSWORD from .env>");
     process.exit(0);
   } catch (err) {
     console.error("❌ Seed error:", err.message);

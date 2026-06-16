@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
 import DashboardLayout from "./layouts/DashboardLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -62,10 +62,8 @@ export default function App() {
           <Route path="/orders/:id" element={<OrderConfirmation />} />
         </Route>
 
-        {/* Customer dashboard */}
-        <Route element={<ProtectedRoute allowedRoles={["customer"]} />}>
-          <Route path="/dashboard/customer" element={<CustomerDashboard />} />
-        </Route>
+        {/* /dashboard/customer → redirect customers to home */}
+        <Route path="/dashboard/customer" element={<Navigate to="/" replace />} />
       </Route>
 
       {/* Farmer routes – DashboardLayout (sidebar) */}

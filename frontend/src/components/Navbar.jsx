@@ -146,9 +146,12 @@ export default function Navbar() {
                         <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">{user?.name}</p>
                         <p className="text-xs text-gray-500 capitalize">{user?.role}</p>
                       </div>
-                      <Link to={dashboardPath} onClick={() => setUserMenuOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
-                        <LayoutDashboard className="w-4 h-4" /> Dashboard
-                      </Link>
+                      {/* Dashboard – only for admin and farmer */}
+                      {(user?.role === "admin" || user?.role === "farmer") && (
+                        <Link to={dashboardPath} onClick={() => setUserMenuOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
+                          <LayoutDashboard className="w-4 h-4" /> Dashboard
+                        </Link>
+                      )}
                       <Link to="/profile" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700">
                         <User className="w-4 h-4" /> Profile
                       </Link>
