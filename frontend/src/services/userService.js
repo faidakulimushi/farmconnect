@@ -7,6 +7,7 @@ export const userService = {
   delete: (id) => api.delete(`/users/${id}`),
   promoteToAdmin: (id) => api.put(`/users/${id}/promote`),
   demoteFromAdmin: (id) => api.put(`/users/${id}/demote`),
+  updateRole: (id, role) => api.patch(`/users/${id}/role`, { role }),
   getStats: () => api.get("/users/stats"),
   getFarmerStats: () => api.get("/users/farmer-stats"),
   updateProfile: (data) => api.put("/auth/me", data),

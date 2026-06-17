@@ -7,6 +7,7 @@ const {
   deleteUser,
   promoteToAdmin,
   demoteFromAdmin,
+  updateUserRole,
   getDashboardStats,
   getFarmerStats,
 } = require("../controllers/userController");
@@ -21,6 +22,7 @@ router.get("/:id", authorise("admin"), getUserById);
 router.put("/:id", authorise("admin"), updateUser);
 router.put("/:id/promote", authorise("admin"), promoteToAdmin);
 router.put("/:id/demote", authorise("admin"), demoteFromAdmin);
+router.patch("/:id/role", authorise("admin"), updateUserRole);
 router.delete("/:id", authorise("admin"), deleteUser);
 
 module.exports = router;

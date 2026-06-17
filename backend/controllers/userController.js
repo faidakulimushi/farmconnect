@@ -116,6 +116,39 @@ const demoteFromAdmin = asyncHandler(async (req, res) => {
 });
 
 // ─────────────────────────────────────────
+// @desc    Update a user's role (admin only)
+// @route   PATCH /api/users/:id/role
+// @access  Private / Admin
+// ─────────────────────────────────────────
+const updateUserRole = asyncHandler(async (req, res) => {
+  if (req.params.id === req.user._id.toString()) {
+    res.status(400);
+    throw new Error("You cannot change your own role");
+  }
+
+  const { role } = req.body;
+  const allowed = ["customer", "farmer", "admin"];
+  if (!role || !allowed.includes(role)) {
+    res.status(400);
+    throw new Error(`Invalid role. Must be one of: ${allowed.join(", ")}`);
+  }
+
+  const user = await User.findById(req.params.id);
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  user.role = role;
+  const updated = await user.save();
+  res.json({
+    success: true,
+    message: `${updated.name}'s role has been updated to ${role}`,
+    user: updated,
+  });
+});
+
+// ─────────────────────────────────────────
 // @desc    Delete a user (admin)
 // @route   DELETE /api/users/:id
 // @access  Private / Admin
@@ -221,4 +254,4 @@ const getFarmerStats = asyncHandler(async (req, res) => {
   });
 });
 
-module.exports = { getAllUsers, getUserById, updateUser, deleteUser, promoteToAdmin, demoteFromAdmin, getDashboardStats, getFarmerStats };
+module.exports = { getAllUsers, getUserById, updateUser, deleteUser, promoteToAdmin, demoteFromAdmin, updateUserRole, getDashboardStats, getFarmerStats };
