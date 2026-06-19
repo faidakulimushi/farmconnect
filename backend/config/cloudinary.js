@@ -9,15 +9,23 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-// Cloudinary-backed multer storage – images land in the "agrilink/products" folder
-const storage = new CloudinaryStorage({
-  cloudinary,
-  params: {
-    folder: "agrilink/products",
-    allowed_formats: ["jpg", "jpeg", "png", "webp"],
-    transformation: [{ width: 800, height: 800, crop: "limit", quality: "auto" }],
-  },
-});
+const cloudinaryConfigured =
+  process.env.CLOUDINARY_CLOUD_NAME &&
+  process.env.CLOUDINARY_API_KEY &&
+  process.env.CLOUDINARY_API_SECRET;
+
+// Use Cloudinary storage when credentials are available, otherwise fall back
+// to memory storage so the product can still be saved without an image.
+const storage = cloudinaryConfigured
+  ? new CloudinaryStorage({
+      cloudinary,
+      params: {
+        folder: "agrilink/products",
+        allowed_formats: ["jpg", "jpeg", "png", "webp"],
+        transformation: [{ width: 800, height: 800, crop: "limit", quality: "auto" }],
+      },
+    })
+  : multer.memoryStorage();
 
 const upload = multer({
   storage,
@@ -31,4 +39,4 @@ const upload = multer({
   },
 });
 
-module.exports = { cloudinary, upload };
+module.exports = { cloudinary, upload, cloudinaryConfigured };

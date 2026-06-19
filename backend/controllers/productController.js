@@ -1,7 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Product = require("../models/Product");
 const Category = require("../models/Category");
-const { cloudinary } = require("../config/cloudinary");
+const { cloudinary, cloudinaryConfigured } = require("../config/cloudinary");
 
 // ─────────────────────────────────────────
 // @desc    Get all products (with search, filter, pagination)
@@ -107,8 +107,23 @@ const createProduct = asyncHandler(async (req, res) => {
   let imagePublicId = "";
 
   if (req.file) {
-    image = req.file.path;
-    imagePublicId = req.file.filename;
+    if (cloudinaryConfigured && req.file.path) {
+      // Cloudinary storage: path = secure URL, filename = public_id
+      image = req.file.path;
+      imagePublicId = req.file.filename;
+    } else if (req.file.buffer && cloudinaryConfigured) {
+      // Memory storage fallback but Cloudinary now available – upload manually
+      const result = await new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          { folder: "agrilink/products", transformation: [{ width: 800, height: 800, crop: "limit", quality: "auto" }] },
+          (err, res) => (err ? reject(err) : resolve(res))
+        );
+        stream.end(req.file.buffer);
+      });
+      image = result.secure_url;
+      imagePublicId = result.public_id;
+    }
+    // If Cloudinary is not configured and it's memory storage, skip image (no URL to store)
   }
 
   const product = await Product.create({
@@ -164,12 +179,27 @@ const updateProduct = asyncHandler(async (req, res) => {
 
   // Replace image if a new file was uploaded
   if (req.file) {
-    // Delete the old image from Cloudinary
-    if (product.imagePublicId) {
-      await cloudinary.uploader.destroy(product.imagePublicId);
+    if (cloudinaryConfigured && req.file.path) {
+      // Cloudinary storage – delete old image then set new one
+      if (product.imagePublicId) {
+        await cloudinary.uploader.destroy(product.imagePublicId).catch(() => {});
+      }
+      product.image = req.file.path;
+      product.imagePublicId = req.file.filename;
+    } else if (req.file.buffer && cloudinaryConfigured) {
+      if (product.imagePublicId) {
+        await cloudinary.uploader.destroy(product.imagePublicId).catch(() => {});
+      }
+      const result = await new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          { folder: "agrilink/products", transformation: [{ width: 800, height: 800, crop: "limit", quality: "auto" }] },
+          (err, res) => (err ? reject(err) : resolve(res))
+        );
+        stream.end(req.file.buffer);
+      });
+      product.image = result.secure_url;
+      product.imagePublicId = result.public_id;
     }
-    product.image = req.file.path;
-    product.imagePublicId = req.file.filename;
   }
 
   const updated = await product.save();
