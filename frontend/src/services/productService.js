@@ -2,6 +2,7 @@ import api from "./api";
 
 export const productService = {
   getAll: (params) => api.get("/products", { params }),
+  getAdminAll: (params) => api.get("/products/admin/all", { params }),
   getById: (id) => api.get(`/products/${id}`),
   getFeatured: () => api.get("/products/featured"),
   getRecommendations: (id) => api.get(`/products/${id}/recommendations`),

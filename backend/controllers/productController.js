@@ -206,6 +206,40 @@ const deleteProduct = asyncHandler(async (req, res) => {
 });
 
 // ─────────────────────────────────────────
+// @desc    Get ALL products for admin (active + inactive, with search/pagination)
+// @route   GET /api/products/admin/all
+// @access  Private / Admin
+// ─────────────────────────────────────────
+const getAdminProducts = asyncHandler(async (req, res) => {
+  const { keyword, page = 1, limit = 15 } = req.query;
+
+  const query = {};
+
+  if (keyword) {
+    const re = new RegExp(keyword.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i");
+    query.$or = [{ title: re }, { description: re }];
+  }
+
+  const skip = (Number(page) - 1) * Number(limit);
+  const total = await Product.countDocuments(query);
+
+  const products = await Product.find(query)
+    .populate("category", "name slug")
+    .populate("farmer", "name farmName avatar farmLocation")
+    .sort({ createdAt: -1 })
+    .skip(skip)
+    .limit(Number(limit));
+
+  res.json({
+    success: true,
+    products,
+    page: Number(page),
+    pages: Math.ceil(total / Number(limit)),
+    total,
+  });
+});
+
+// ─────────────────────────────────────────
 // @desc    Get products listed by the logged-in farmer
 // @route   GET /api/products/my-products
 // @access  Private / Farmer
@@ -327,6 +361,7 @@ module.exports = {
   updateProduct,
   deleteProduct,
   getMyProducts,
+  getAdminProducts,
   getRecommendations,
   getFeaturedProducts,
   getSuggestions,

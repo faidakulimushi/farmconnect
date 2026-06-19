@@ -7,6 +7,7 @@ const {
   updateProduct,
   deleteProduct,
   getMyProducts,
+  getAdminProducts,
   getRecommendations,
   getFeaturedProducts,
   getSuggestions,
@@ -17,16 +18,23 @@ const { upload } = require("../config/cloudinary");
 
 // Multer / Cloudinary upload error handler
 const handleUploadError = (err, req, res, next) => {
-  if (err && (err.message?.includes("Only image") || err.code === "LIMIT_FILE_SIZE" || err.http_code)) {
-    return res.status(400).json({
-      success: false,
-      message: err.code === "LIMIT_FILE_SIZE"
-        ? "Image must be 5 MB or smaller"
-        : err.message || "Image upload failed",
-    });
+  if (!err) return next();
+  // Hard reject: wrong file type
+  if (err.message?.includes("Only image")) {
+    return res.status(400).json({ success: false, message: err.message });
   }
-  next(err);
+  // Hard reject: file too large
+  if (err.code === "LIMIT_FILE_SIZE") {
+    return res.status(400).json({ success: false, message: "Image must be 5 MB or smaller" });
+  }
+  // Cloudinary / network error → skip image upload, continue without image
+  // (avoids 500 when Cloudinary credentials are missing or unreachable)
+  req.file = undefined;
+  next();
 };
+
+// Admin-only routes
+router.get("/admin/all", protect, authorise("admin"), getAdminProducts);
 
 // Public routes
 router.get("/suggestions", getSuggestions);

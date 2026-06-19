@@ -18,7 +18,7 @@ export default function ManageProducts() {
 
   const fetchProducts = (p = page) => {
     setLoading(true);
-    productService.getAll({ page: p, limit: 15, keyword: search || undefined })
+    productService.getAdminAll({ page: p, limit: 15, keyword: search || undefined })
       .then(({ data }) => { setProducts(data.products || []); setPagination({ pages: data.pages || 1, total: data.total || 0 }); })
       .catch(() => {})
       .finally(() => setLoading(false));
