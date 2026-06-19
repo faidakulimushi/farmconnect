@@ -121,7 +121,7 @@ const createProduct = asyncHandler(async (req, res) => {
     quantity: Number(quantity),
     unit: unit || "kg",
     farmer: req.user._id,
-    tags: tags ? JSON.parse(tags) : [],
+    tags: tags ? (() => { try { return JSON.parse(tags); } catch { return []; } })() : [],
     isFeatured: isFeatured === "true",
   });
 
@@ -158,7 +158,7 @@ const updateProduct = asyncHandler(async (req, res) => {
   if (category !== undefined) product.category = category;
   if (quantity !== undefined) product.quantity = Number(quantity);
   if (unit !== undefined) product.unit = unit;
-  if (tags !== undefined) product.tags = JSON.parse(tags);
+  if (tags !== undefined) { try { product.tags = JSON.parse(tags); } catch { product.tags = []; } }
   if (isFeatured !== undefined) product.isFeatured = isFeatured === "true" || isFeatured === true;
   if (isActive !== undefined) product.isActive = isActive === "true" || isActive === true;
 
