@@ -28,6 +28,7 @@ export default function AddProduct() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!form.title || !form.price || !form.category || !form.quantity) { toast.error("Please fill all required fields"); return; }
+    if (!image) { toast.error("Please upload a product image"); return; }
     setLoading(true);
     try {
       const fd = new FormData();
@@ -35,10 +36,15 @@ export default function AddProduct() {
         if (k === "tags") fd.append(k, JSON.stringify(v.split(",").map(t => t.trim()).filter(Boolean)));
         else fd.append(k, v);
       });
-      if (image) fd.append("image", image);
+      fd.append("image", image);
 
-      await productService.create(fd);
-      toast.success("Product listed successfully!");
+      const { data } = await productService.create(fd);
+      // Verify the image was saved by checking the response
+      if (!data.product?.image) {
+        toast.success("Product listed! Image upload may have failed — you can re-upload via Edit.");
+      } else {
+        toast.success("Product listed successfully with image!");
+      }
       navigate(backPath);
     } catch (err) {
       toast.error(err.response?.data?.message || "Failed to create product");
@@ -57,7 +63,9 @@ export default function AddProduct() {
       <form onSubmit={handleSubmit} className="card p-6 space-y-5">
         {/* Image upload */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Product Image</label>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            Product Image <span className="text-red-500">*</span>
+          </label>
           <label className="flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-xl cursor-pointer hover:border-primary-400 transition-colors overflow-hidden">
             {preview ? (
               <img src={preview} alt="Preview" className="w-full h-full object-cover" />
@@ -70,6 +78,11 @@ export default function AddProduct() {
             )}
             <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
           </label>
+          {image && (
+            <p className="text-xs text-green-600 dark:text-green-400 mt-1">
+              ✓ Selected: {image.name}
+            </p>
+          )}
         </div>
 
         <div>

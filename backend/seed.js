@@ -24,25 +24,25 @@ const categories = [
 
 const sampleProducts = [
   // Vegetables
-  { title: "Tomatoes", description: "Fresh, ripe red tomatoes straight from the farm. Perfect for cooking and salads.", price: 120, unit: "kg", quantity: 200, category: "Vegetables", tags: ["tomatoes", "fresh", "vegetables"], isFeatured: true },
-  { title: "Onions", description: "Freshly harvested onions with a strong flavour. Great for stews and frying.", price: 80, unit: "kg", quantity: 300, category: "Vegetables", tags: ["onions", "vegetables", "fresh"] },
-  { title: "Carrots", description: "Sweet, crunchy carrots rich in vitamins. Ideal for juicing, soups, and salads.", price: 100, unit: "kg", quantity: 150, category: "Vegetables", tags: ["carrots", "vegetables", "healthy"] },
-  { title: "Cabbage", description: "Large, fresh green cabbages. Perfect for stews, salads, and stir-fries.", price: 60, unit: "piece", quantity: 100, category: "Vegetables", tags: ["cabbage", "vegetables", "fresh"] },
-  { title: "Potatoes", description: "Premium quality Irish potatoes, freshly harvested. Ideal for frying, boiling, and mashing.", price: 90, unit: "kg", quantity: 500, category: "Vegetables", tags: ["potatoes", "vegetables", "starch"], isFeatured: true },
-  { title: "Kale (Sukuma Wiki)", description: "Fresh green kale leaves, a Kenyan staple vegetable. Nutritious and delicious.", price: 30, unit: "bunch", quantity: 200, category: "Vegetables", tags: ["kale", "sukuma", "vegetables", "greens"] },
-  { title: "Spinach", description: "Tender spinach leaves, rich in iron and vitamins. Great for salads and cooking.", price: 40, unit: "bunch", quantity: 150, category: "Vegetables", tags: ["spinach", "vegetables", "greens", "healthy"] },
+  { title: "Tomatoes", description: "Fresh, ripe red tomatoes straight from the farm. Perfect for cooking and salads.", price: 120, unit: "kg", quantity: 200, category: "Vegetables", tags: ["tomatoes", "fresh", "vegetables"], isFeatured: true, image: "https://images.unsplash.com/photo-1546094096-0df4bcaaa337?w=800&auto=format&fit=crop" },
+  { title: "Onions", description: "Freshly harvested onions with a strong flavour. Great for stews and frying.", price: 80, unit: "kg", quantity: 300, category: "Vegetables", tags: ["onions", "vegetables", "fresh"], image: "https://images.unsplash.com/photo-1618512496248-a07fe83aa8cb?w=800&auto=format&fit=crop" },
+  { title: "Carrots", description: "Sweet, crunchy carrots rich in vitamins. Ideal for juicing, soups, and salads.", price: 100, unit: "kg", quantity: 150, category: "Vegetables", tags: ["carrots", "vegetables", "healthy"], image: "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?w=800&auto=format&fit=crop" },
+  { title: "Cabbage", description: "Large, fresh green cabbages. Perfect for stews, salads, and stir-fries.", price: 60, unit: "piece", quantity: 100, category: "Vegetables", tags: ["cabbage", "vegetables", "fresh"], image: "https://images.unsplash.com/photo-1607305387299-a3d9611cd469?w=800&auto=format&fit=crop" },
+  { title: "Potatoes", description: "Premium quality Irish potatoes, freshly harvested. Ideal for frying, boiling, and mashing.", price: 90, unit: "kg", quantity: 500, category: "Vegetables", tags: ["potatoes", "vegetables", "starch"], isFeatured: true, image: "https://images.unsplash.com/photo-1518977676601-b53f82aba655?w=800&auto=format&fit=crop" },
+  { title: "Kale (Sukuma Wiki)", description: "Fresh green kale leaves, a Kenyan staple vegetable. Nutritious and delicious.", price: 30, unit: "bunch", quantity: 200, category: "Vegetables", tags: ["kale", "sukuma", "vegetables", "greens"], image: "https://images.unsplash.com/photo-1524179091875-bf99a9a6af57?w=800&auto=format&fit=crop" },
+  { title: "Spinach", description: "Tender spinach leaves, rich in iron and vitamins. Great for salads and cooking.", price: 40, unit: "bunch", quantity: 150, category: "Vegetables", tags: ["spinach", "vegetables", "greens", "healthy"], image: "https://images.unsplash.com/photo-1576045057995-568f588f82fb?w=800&auto=format&fit=crop" },
 
   // Fruits
-  { title: "Mangoes", description: "Sweet and juicy Kenyan mangoes, handpicked at peak ripeness. A tropical delight.", price: 150, unit: "kg", quantity: 100, category: "Fruits", tags: ["mangoes", "fruits", "tropical", "sweet"], isFeatured: true },
-  { title: "Bananas", description: "Fresh yellow bananas, naturally ripened. Perfect for breakfast and smoothies.", price: 50, unit: "bunch", quantity: 200, category: "Fruits", tags: ["bananas", "fruits", "tropical"] },
-  { title: "Avocados", description: "Creamy Hass avocados freshly picked. Rich in healthy fats and nutrients.", price: 200, unit: "kg", quantity: 80, category: "Fruits", tags: ["avocados", "fruits", "healthy", "hass"] },
-  { title: "Watermelon", description: "Large, sweet and refreshing watermelons. Perfect for hot days and parties.", price: 180, unit: "piece", quantity: 50, category: "Fruits", tags: ["watermelon", "fruits", "refreshing", "sweet"] },
-  { title: "Passion Fruits", description: "Tangy and sweet passion fruits. Great for juicing and flavouring desserts.", price: 120, unit: "kg", quantity: 100, category: "Fruits", tags: ["passion fruit", "fruits", "juice", "tropical"] },
+  { title: "Mangoes", description: "Sweet and juicy Kenyan mangoes, handpicked at peak ripeness. A tropical delight.", price: 150, unit: "kg", quantity: 100, category: "Fruits", tags: ["mangoes", "fruits", "tropical", "sweet"], isFeatured: true, image: "https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?w=800&auto=format&fit=crop" },
+  { title: "Bananas", description: "Fresh yellow bananas, naturally ripened. Perfect for breakfast and smoothies.", price: 50, unit: "bunch", quantity: 200, category: "Fruits", tags: ["bananas", "fruits", "tropical"], image: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=800&auto=format&fit=crop" },
+  { title: "Avocados", description: "Creamy Hass avocados freshly picked. Rich in healthy fats and nutrients.", price: 200, unit: "kg", quantity: 80, category: "Fruits", tags: ["avocados", "fruits", "healthy", "hass"], image: "https://images.unsplash.com/photo-1519162808019-7de1683fa2ad?w=800&auto=format&fit=crop" },
+  { title: "Watermelon", description: "Large, sweet and refreshing watermelons. Perfect for hot days and parties.", price: 180, unit: "piece", quantity: 50, category: "Fruits", tags: ["watermelon", "fruits", "refreshing", "sweet"], image: "https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=800&auto=format&fit=crop" },
+  { title: "Passion Fruits", description: "Tangy and sweet passion fruits. Great for juicing and flavouring desserts.", price: 120, unit: "kg", quantity: 100, category: "Fruits", tags: ["passion fruit", "fruits", "juice", "tropical"], image: "https://images.unsplash.com/photo-1604495772376-9657f0035b05?w=800&auto=format&fit=crop" },
 
   // Grains
-  { title: "Maize Flour (Unga)", description: "Finely milled white maize flour for making ugali and porridge. 2kg pack.", price: 160, unit: "2kg pack", quantity: 300, category: "Grains", tags: ["maize", "flour", "unga", "grains", "ugali"], isFeatured: true },
-  { title: "Brown Rice", description: "Nutritious whole grain brown rice. Rich in fibre and essential minerals.", price: 220, unit: "kg", quantity: 200, category: "Grains", tags: ["rice", "brown rice", "grains", "healthy"] },
-  { title: "Dry Beans", description: "High-quality dried beans, perfect for stews and soups. Protein-rich.", price: 130, unit: "kg", quantity: 250, category: "Grains", tags: ["beans", "grains", "protein", "legumes"] },
+  { title: "Maize Flour (Unga)", description: "Finely milled white maize flour for making ugali and porridge. 2kg pack.", price: 160, unit: "2kg pack", quantity: 300, category: "Grains", tags: ["maize", "flour", "unga", "grains", "ugali"], isFeatured: true, image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=800&auto=format&fit=crop" },
+  { title: "Brown Rice", description: "Nutritious whole grain brown rice. Rich in fibre and essential minerals.", price: 220, unit: "kg", quantity: 200, category: "Grains", tags: ["rice", "brown rice", "grains", "healthy"], image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=800&auto=format&fit=crop" },
+  { title: "Dry Beans", description: "High-quality dried beans, perfect for stews and soups. Protein-rich.", price: 130, unit: "kg", quantity: 250, category: "Grains", tags: ["beans", "grains", "protein", "legumes"], image: "https://images.unsplash.com/photo-1559598467-f8b76c8155d0?w=800&auto=format&fit=crop" },
 ];
 
 async function seed() {
@@ -114,10 +114,23 @@ async function seed() {
     }
 
     // Insert products (skip if title already exists for this farmer)
+    // Also patch any existing product that has an empty image
     let created = 0;
+    let patched = 0;
     for (const p of sampleProducts) {
       const exists = await Product.findOne({ title: p.title, farmer: farmer._id });
-      if (exists) { console.log(`⏭  Skipped (exists): ${p.title}`); continue; }
+      if (exists) {
+        // Patch image if missing
+        if (!exists.image && p.image) {
+          exists.image = p.image;
+          await exists.save();
+          patched++;
+          console.log(`🖼  Patched image: ${p.title}`);
+        } else {
+          console.log(`⏭  Skipped (exists): ${p.title}`);
+        }
+        continue;
+      }
 
       await Product.create({
         title: p.title,
@@ -130,7 +143,7 @@ async function seed() {
         tags: p.tags || [],
         isFeatured: p.isFeatured || false,
         isActive: true,
-        image: `https://placehold.co/400x400/16a34a/ffffff?text=${encodeURIComponent(p.title)}`,
+        image: p.image || "",
         imagePublicId: "",
         rating: +(Math.random() * 1.5 + 3.5).toFixed(1),
         numReviews: Math.floor(Math.random() * 30),
@@ -140,7 +153,7 @@ async function seed() {
       created++;
     }
 
-    console.log(`\n🌱 Seeding complete! ${created} new products added.`);
+    console.log(`\n🌱 Seeding complete! ${created} new products added, ${patched} images patched.`);
     console.log("\nDemo accounts:");
     console.log("  Farmer: farmer@agrilink.com  /  Farmer123!");
     console.log("  Admin:  faidakulimushi431@gmail.com  /  <ADMIN_PASSWORD from .env>");
